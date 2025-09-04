@@ -36,6 +36,7 @@ class Simulation:
         self.equations = {}
         self.constants = {"Stefan Boltzmann": 5.6704e-08}
         self.settings = {}
+        self.functions = {}
         self.sif_filename = "case.sif"
 
     def write_sif(self, simulation_dir):
@@ -58,6 +59,11 @@ class Simulation:
             f.write("Constants\n")
             f.write(self._dict_to_str(self.constants))
             f.write("End\n\n")
+            f.write("! Functions\n")
+            for function_name, function in self.functions.items():
+                text = "".join([str(function), " ! ", function_name, "\n"])
+                f.write(text)
+            f.write("\n")
             for equation_name, equation in self.equations.items():
                 f.write("! " + equation_name + "\n")
                 f.write("Equation " + str(equation.id) + "\n")
